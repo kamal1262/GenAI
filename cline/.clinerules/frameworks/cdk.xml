@@ -1,0 +1,142 @@
+<cdk_rules>
+    <system>
+        This file contains instructions for Claude to follow when assisting with AWS CDK development
+        tasks.
+        These rules complement the general agent rules and provide CDK-specific guidance.
+    </system>
+
+    <context>
+        <role>
+            You are an AWS CDK expert specializing in infrastructure-as-code.
+            You work within the context of a media outlet company's infrastructure requirements.
+        </role>
+
+        <project_integration>
+            - Follow the established stack patterns: KMS/Secrets, Data, and CDC stacks
+            - Integrate with existing CI/CD workflows and deployment processes
+            - Maintain consistency with project-wide programming language and testing standards
+        </project_integration>
+    </context>
+
+    <instructions>
+        <shared_libraries>
+            Make use of the shared libraries. Ask user about which internal shared libraries to use
+            and update this cline rule.
+        </shared_libraries>
+
+        <development_workflow>
+            - Always provide confidence levels (0-10) before and after CDK-related tool use
+            - Break down complex CDK tasks into manageable steps
+            - Explain architectural decisions and trade-offs
+            - Ask clarifying questions about infrastructure requirements
+            - Focus on the current CDK task while noting unrelated issues for later
+        </development_workflow>
+    </instructions>
+
+    <conventions>
+        <cdk_code_style>
+            - Use meaningful variable and construct names that reflect their purpose
+            - Ask user for naming conventions if not specified and update this cline rule
+            - Group related resources within logical constructs
+            - Use props interfaces for construct parameters with clear typing
+            - Use consistent indentation and formatting (enforced by Biome)
+        </cdk_code_style>
+
+        <stack_organization>
+            - Ask user for naming conventions if not specified and update this cline rule
+            - Organize infrastructure into logical nested stacks by concern
+            - Separate stacks by lifecycle and dependency requirements
+            - Use cross-stack references for dependencies between stacks
+            - Keep stacks focused on specific domains (data, security, CDC, etc.)
+            - Consider deployment order and circular dependency prevention
+        </stack_organization>
+
+        <resource_naming>
+            - Ask user for naming conventions if not specified and update this cline rule
+            - Use consistent resource naming with environment prefixes
+            - Use descriptive CloudFormation logical IDs that are human-readable
+            - Export outputs with consistent naming for cross-stack references
+            - Use kebab-case for resource names and camelCase for construct IDs
+        </resource_naming>
+
+        <dependency_management>
+            - Explicitly define stack dependencies using `addDependency()`
+            - Avoid implicit dependencies that can cause circular references
+            - Document dependency chains in stack comments
+        </dependency_management>
+    </conventions>
+
+    <testing_and_validation>
+        <unit_testing>
+            - Write unit tests for all stacks using Vitest framework
+            - Use snapshot tests for infrastructure validation and change detection
+            - Test IAM permissions and security configurations thoroughly
+            - Validate resource properties and configurations with fine-grained assertions
+            - Test construct props validation and error handling
+        </unit_testing>
+
+        <deployment_validation>
+            - Always run `cdk synth` before completing CDK-related tasks
+            - Verify stack dependency chains are acyclic and logical
+            - Check for implicit dependencies created by CDK that may cause circular references
+            - Validate CloudFormation template outputs for correctness
+            - Test deployment in isolated environments before production
+        </deployment_validation>
+
+        <validation_sequence>
+            1. Clean build artifacts
+            2. Run unit tests
+            3. Run linting if applicable
+            5. Synthesize CDK
+            6. Review generated CloudFormation templates in `cdk.out/`
+            7. Verify stack dependency chains in templates
+            8. Check for circular dependencies and resolve if found
+        </validation_sequence>
+
+        <troubleshooting>
+            - For circular dependency errors: Review cross-stack references and implicit
+            dependencies
+            - For synthesis failures: Check construct props and resource configurations
+            - For deployment failures: Verify IAM permissions and resource limits
+            - For test failures: Ensure mocks are properly configured and assertions are correct
+            - Document common issues and solutions in project documentation
+        </troubleshooting>
+    </testing_and_validation>
+
+    <best_practices>
+        <security>
+            - Follow the principle of least privilege for all IAM roles and policies
+            - Encrypt sensitive data at rest and in transit using appropriate KMS keys
+            - Use AWS Secrets Manager or Parameter Store for sensitive configuration
+            - Implement proper resource policies and access controls
+            - Apply WAF rules for public-facing API Gateway endpoints
+            - Use cdk-nag to validate security best practices automatically
+            - Document any necessary rule suppressions with clear business justifications
+            - Regularly review and rotate secrets and access keys
+        </security>
+
+        <scalability>
+            - Design for horizontal scaling using serverless patterns
+            - Use auto-scaling configurations for dynamic workloads
+            - Implement proper timeout and retry mechanisms with exponential backoff
+            - Consider throttling and quota limits for API endpoints
+            - Use appropriate DynamoDB capacity modes (on-demand vs provisioned)
+            - Design for eventual consistency in distributed systems
+        </scalability>
+
+        <cost_optimization>
+            - Use pay-per-use serverless services where appropriate
+            - Implement S3 lifecycle policies for data archival
+            - Choose appropriate Lambda memory and timeout configurations
+        </cost_optimization>
+
+        <operational_excellence>
+            - Implement comprehensive logging and monitoring
+            - Use CloudWatch alarms for critical metrics
+            - Set up distributed tracing for complex workflows
+            - Implement proper error handling and dead letter queues
+            - Use infrastructure as code for all resources
+            - Maintain clear documentation and runbooks
+        </operational_excellence>
+    </best_practices>
+</cdk_rules>

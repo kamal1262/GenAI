@@ -1,0 +1,29 @@
+<Rules>
+
+    <Rule Id="C001" Title="Use PascalCase for class names." />
+    <Rule Id="C002" Title="Use PascalCase for method names." />
+    <Rule Id="C003" Title="Use camelCase for local variables." />
+    <Rule Id="C004" Title="Use camelCase for method arguments." />
+    <Rule Id="C005" Title="Prefix interfaces with 'I'." />
+    <Rule Id="C006" Title="Use PascalCase for public or internal fields." />
+    <Rule Id="C007" Title="Use _camelCase for private fields." />
+
+    <Rule Id="L001" Title="Use 4 spaces for indentation." />
+    <Rule Id="L002" Title="Specify access modifiers for all members." />
+    <Rule Id="L003" Title="Place 'using' directives at the top of the file." />
+    <Rule Id="L004" Title="Separate member definitions with a single blank line." />
+    <Rule Id="L005" Title="Avoid multiple blank lines." />
+    <Rule Id="L006" Title="Always use braces for 'if', 'for', 'foreach', 'do', 'while', etc." />
+    <Rule Id="L007" Title="Place the opening brace on a new line." />
+
+    <Rule Id="B001" Title="Use 'var' for local variables when the type is obvious." />
+    <Rule Id="B002" Title="Use explicit type names when the type is not apparent." />
+    <Rule Id="B003" Title="Prefer string interpolation over 'string.Format()'." />
+    <Rule Id="B004" Title="Use expression-bodied members for simple methods and properties." />
+    <Rule Id="B005" Title="Use null-conditional ('?.') and null-coalescing ('??') operators." />
+    <Rule Id="B006" Title="Use properties instead of public fields." />
+    <Rule Id="B007" Title="Initialize auto-properties where appropriate." />
+    <Rule Id="B008" Title="Use 'readonly' for fields and properties initialized only in the constructor." />
+    <Rule Id="B009" Title="Use 'is' and 'as' for safe type checking and casting." />
+
+</Rules>

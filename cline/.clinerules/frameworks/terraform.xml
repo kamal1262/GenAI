@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cline-rules>
+  <documentation>
+    This file contains a set of best practise rules for writing Terraform code.
+    These rules are intended to improve code quality, maintainability, and security.
+  </documentation>
+
+  <category name="Code Style and Formatting">
+    <rule description="Run 'terraform fmt -recursive' before committing any changes to ensure consistent formatting."/>
+    <rule description="Split your code into logical files, such as main.tf, variables.tf, outputs.tf, and provider.tf, to improve readability."/>
+    <rule description="Use a consistent naming convention for all resources, variables, and outputs. Use lowercase letters and underscores (snake_case)."/>
+    <rule description="Add comments to your code to explain complex logic or important details."/>
+  </category>
+
+  <category name="Resource Naming and Structure">
+    <rule description="Resource names should be nouns and should not repeat the resource type."/>
+    <rule description="Use singular nouns for single resources and plural nouns for resources created with count or for_each."/>
+    <rule description="Group related resources together in the same file for better organisation."/>
+    <rule description="Laying out your resources in a logical order only helps with readability. "/>
+  </category>
+
+  <category name="Variables">
+    <rule description="Declare all variables in a separate variables.tf file."/>
+    <rule description="Provide a 'type' and 'description' for every variable."/>
+    <rule description="Provide default values for variables where possible, but avoid defaults for environment-specific variables like 'project_id'."/>
+    <rule description="Use specific variable names, including units where applicable (e.g., 'ram_size_gb')."/>
+    <rule description="Use positive boolean variable names (e.g., 'enable_monitoring' instead of 'disable_monitoring')."/>
+  </category>
+
+  <category name="Outputs">
+    <rule description="Declare all outputs in a separate outputs.tf file."/>
+    <rule description="Provide a 'description' for every output."/>
+    <rule description="Only output values that are necessary for other Terraform configurations or for the user to know."/>
+  </category>
+
+  <category name="Modules">
+    <rule description="Avoid deeply nested modules; aim for a single level of modularisation. "/>
+    <rule description="Avoid creating too many logic branches in a module; prefer some duplication (separate modules) to complex logic. "/>
+    <rule description="Avoid using data sources directly in modules. Instead, pass data in as variables to enable flexibility. "/>
+    <rule description="Modules should have a dedicated 'examples' directory with a README.md for each example."/>
+  </category>
+
+  <category name="State Management">
+    <rule description="Always use a remote backend for storing Terraform state to enable collaboration and state locking. "/>
+    <rule description="Enable versioning on your remote state storage (e.g., S3 object versioning) to prevent state loss. "/>
+    <rule description="Never commit your 'terraform.tfstate' or 'terraform.tfstate.d' files to version control."/>
+  </category>
+
+  <category name="CI/CD">
+    <rule description="Avoid using plan output files in CI/CD pipelines as they can prevent quick rollbacks and rerunning stages due to a stale plan. "/>
+    <rule description="Use 'terraform validate' to check the syntax of your code in your CI/CD pipeline."/>
+    <rule description="Run 'terraform plan' in your CI/CD pipeline to review changes before applying them."/>
+  </category>
+
+  <category name="Security">
+    <rule description="When managing infrastructure, split the repository to separate duties, for example, into VPC, IAM, and Application repositories. "/>
+    <rule description="The VPC and IAM repositories should be managed by the infra/SRE service accounts. "/>
+    <rule description="The Application repository should be configured to pull outputs from the remote state of the Infrastructure repository. "/>
+    <rule description="Do not grant application repository service accounts access to the infrastructure repository.  They can create pull requests to other repositories if they need more API permissions. "/>
+    <rule description="Do not hardcode secrets in your Terraform code. Use a secrets management tool like HashiCorp Vault or AWS Secrets Manager."/>
+  </category>
+
+  <category name="Dependencies">
+      <rule description="Pin the version of Terraform and all providers in a provider file to prevent unwanted API changes or version conflicts.  It can also be useful to pin to a series, for example using '~&gt; 1.7.5'. "/>
+      <rule description="Reduce the amount of 'depends_on' in your codebase.  Dependencies can be created by referencing the resource you are dependent on from within another resource. "/>
+      <rule description="Be aware that when you update your Terraform version, you cannot downgrade the state file, only increment. "/>
+  </category>
+
+  <category name="General">
+    <rule description="Terraform builds a dependency graph of resources and creates them based on that defined order, not the order in which they appear in a file. "/>
+    <rule description="When using 'terraform plan -out=&lt;output_of_plan&gt;', using 'terraform apply &lt;output_of_plan&gt;' will auto-apply the changes. "/>
+    <rule description="Be aware that some Google Cloud APIs may enable other private APIs behind the scenes. For instance, enabling appengineflex.googleapis.com also activates containeranalysis.googleapis.com and storage.googleapis.com. "/>
+    <rule description="If you use AWS profiles with a role ARN on an EC2 instance, ensure you add 'skip_metadata_api_check = true' to your backend and provider configuration. "/>
+  </category>
+
+</cline-rules>
