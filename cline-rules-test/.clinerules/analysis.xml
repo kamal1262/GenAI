@@ -1,0 +1,208 @@
+<analysis_framework>
+    <context>
+        This framework ensures high-confidence development decisions by providing systematic
+        analysis
+        approaches for system. Following this framework prevents costly mistakes, reduces rework,
+        and
+        maintains system integrity across complex integrations with downstream systems.
+    </context>
+
+    <instructions>
+        Before any implementation or architectural decision, you must:
+        1. Assess confidence level using the structured framework below
+        2. Complete mandatory investigation steps when confidence is insufficient
+        3. Document your analysis using the provided templates
+        4. Ask specific clarifying questions when needed
+        5. Only proceed to implementation when confidence reaches acceptable levels
+    </instructions>
+
+    <confidence_assessment>
+        <mandatory_confidence_scoring>
+            Rate your understanding on a scale of 0-10 before proceeding:
+        </mandatory_confidence_scoring>
+
+        <confidence_levels>
+            <insufficient_knowledge>
+                0-3 (Insufficient Knowledge)
+                - Action Required: Stop immediately. Conduct thorough investigation.
+                - Why This Matters: Stop. Proceeding with low confidence risks breaking critical
+                business
+                workflows, corrupting data integrity, or causing integration failures that affect
+                multiple
+                downstream systems.
+                - Next Steps: Use investigation checklist below, examine relevant code patterns, ask
+                specific clarifying questions.
+            </insufficient_knowledge>
+
+            <partial_understanding>
+                4-6 (Partial Understanding)
+                - Action Required: Stop. Significant gaps remain that must be addressed.
+                - Why This Matters: Partial understanding often leads to solutions that work in
+                isolation
+                but fail when integrated with the broader OTP ecosystem.
+                - Next Steps: Focus investigation on identified knowledge gaps, validate assumptions
+                with
+                code examination.
+            </partial_understanding>
+
+            <good_understanding>
+                7-8 (Good Understanding)
+                - Action Required: Stop. Verify edge cases and integration impacts.
+                - Why This Matters: Good understanding covers the happy path but may miss critical
+                edge
+                cases or downstream effects.
+                - Next Steps: Review error scenarios, check integration points, validate business
+                rule
+                completeness.
+            </good_understanding>
+
+            <complete_understanding>
+                9-10 (Complete Understanding)
+                - Action Required: Proceed with implementation.
+                - Why This Matters: Complete understanding enables confident implementation with
+                proper
+                error handling, integration awareness, and business rule compliance.
+                - Focus: Execution quality, comprehensive testing, proper documentation.
+            </complete_understanding>
+        </confidence_levels>
+
+        <assessment_template>
+            ```
+            Task: [Specific task description]
+            Current Confidence: [X]/10
+
+            Understanding Status:
+            ✓ Business rules: [Complete/Partial/Unknown]
+            ✓ Database impact: [Complete/Partial/Unknown]
+            ✓ Integration effects: [Complete/Partial/Unknown]
+            ✓ Error scenarios: [Complete/Partial/Unknown]
+            ✓ Security implications: [Complete/Partial/Unknown]
+
+            Knowledge Gaps:
+            - [Specific gap 1]
+            - [Specific gap 2]
+
+            Required Actions:
+            - [Specific investigation step 1]
+            - [Specific investigation step 2]
+            ```
+        </assessment_template>
+    </confidence_assessment>
+
+    <investigation_checklist>
+        <investigation_checklist_overview>
+            When confidence is less than 9, complete relevant sections below
+        </investigation_checklist_overview>
+
+        <business_logic_investigation>
+            Before implementing or modifying business logic, ensure you have a complete
+            understanding of
+            the following:
+            1. Functional Requirements: What are the complete business rules for the operation?
+            Why: Incomplete requirements can lead to missing functionality or incorrect behavior
+            2. Edge Cases: Are there any exception scenarios that must be handled?
+            Why: Missing edge cases can lead to system failures or incorrect data processing
+            3. Data Validation: What are the validation requirements for inputs?
+            Why: Invalid data can corrupt business logic and lead to incorrect outcomes
+            4. User Permissions: Who has permission to perform the operation?
+            Why: Unauthorized access can lead to security breaches or data integrity issues
+            5. Impact on Existing Workflows: How does this change affect existing processes?
+            Why: Changes to core workflows can disrupt user experience and lead to unexpected
+            behavior
+            6. Business Rule Completeness: Are there any missing business rules that need to be
+            implemented?
+            Why: Incomplete business rules can lead to inconsistent behavior and user confusion
+            7. Performance Considerations: Are there any performance implications of the proposed
+            change?
+            Why: Performance issues can lead to slow response times and degraded user experience
+            8. Error Handling: How should errors be handled and logged?
+            Why: Proper error handling ensures system stability and provides useful information for
+            debugging
+        </business_logic_investigation>
+
+        <database_investigation>
+            Before any data-related changes suggestions, examine:
+            1. Migration Files: Review table structures, relationships, and constraints.
+            Why: Understanding existing schema prevents constraint violations and data corruption
+            2. Foreign Key Relationships: Map all table dependencies.
+            Why: Changes to referenced tables can cascade unexpectedly
+            3. Indexes and Performance: Check existing indexes and query patterns.
+            Why: New queries may require index optimization to maintain performance
+            4. Transaction Boundaries: Understand existing transaction scopes.
+            Why: Improper transaction handling can cause data inconsistency
+        </database_investigation>
+
+        <api_investigation>
+            Before suggesting adding/modifying API endpoints, examine:
+            1. Existing Router Patterns for consistent patterns.
+            Why: Consistency ensures maintainability and predictable behavior
+            2. Authentication/Authorization: Check role and permission requirements.
+            Why: Security breaches can expose sensitive data
+            3. Middleware Dependencies: Identify required middleware chain.
+            Why: Missing middleware can bypass critical validation or logging
+            4. Validation Schemas: Review input validation patterns.
+            Why: Invalid data can corrupt business logic and downstream systems
+            5. Error Response Formats: Ensure consistent error handling.
+            Why: Inconsistent errors confuse client applications and users
+        </api_investigation>
+
+        <integration_investigation>
+            Before system modifications, map:
+            1. Message broker or event bus dependencies: Identify which streams consume your data.
+            Why: Breaking event schemas can crash downstream consumers
+            2. Queue Interactions: Check queue message formats and consumers.
+            Why: Queue format changes can cause message processing failures
+            3. External Service Integrations: Verify API contracts with downstream services. Ask
+            user for
+            more details if required.
+            Why: Integration failures can prevent synchronization and data consistency
+            4. Event Publishing Requirements: Understand what events must be published.
+            Why: Missing events can cause data synchronization issues across systems
+        </integration_investigation>
+
+        <infrastructure_investigation>
+            Before implementing changes that affect system infrastructure, examine:
+            1. Resource Requirements: Check CPU, memory, storage impact of changes.
+            Why: Resource exhaustion can cause system crashes or performance degradation
+            2. Deployment Environment: Understand target environments and configuration differences.
+            Why: Environment mismatches can cause deployment failures or unexpected behavior
+            3. Service Dependencies: Map critical external services, databases, and third-party
+            APIs.
+            Why: Dependency failures can cascade and cause complete system outages
+            4. Security Boundaries: Review network access, firewall rules, and authentication
+            requirements.
+            Why: Security misconfigurations can expose systems to attacks or data breaches
+            5. Scaling Implications: Assess how changes affect system performance under load.
+            Why: Poor scaling can cause service degradation or outages during peak usage
+            6. Monitoring Coverage: Ensure critical metrics and error conditions are monitored.
+            Why: Unmonitored failures can go undetected and cause extended outages
+        </infrastructure_investigation>
+    </investigation_checklist>
+
+    <documentation_requirements>
+        Always document the following:
+        - Business Rule Assumptions: Document all business rules understood and applied
+        - Integration Points Affected: List all systems that will be impacted by changes
+        - Database Interactions: Detail all schema modifications and data migrations
+        - Security Considerations: Document authentication, authorization, and data protection
+        measures
+        - Performance Implications: Identify potential performance impacts and mitigation strategies
+        - Error Scenarios: Document all error conditions and handling approaches
+        - Testing Strategy: Outline comprehensive testing approach including edge cases
+    </documentation_requirements>
+
+    <validation_checklist>
+        Before marking any task complete, verify:
+        - [ ] Confidence Level: Final confidence ≥ 9/10 for all aspects of implementation
+        - [ ] Business Rules: All business rules properly analyzed, understood, and implemented
+        - [ ] Data Integrity: All database changes validated against existing schema and constraints
+        - [ ] Integration Compliance: All affected integration points properly handled with correct
+        event publishing
+        - [ ] Security Implementation: Authentication, authorization, and data protection properly
+        implemented
+        - [ ] Error Handling: Comprehensive error handling for all identified scenarios
+        - [ ] Performance Validation: Performance implications assessed and addressed
+        - [ ] Testing Coverage: Comprehensive testing strategy implemented including edge cases
+        - [ ] Documentation Complete: All required documentation provided and accurate
+    </validation_checklist>
+</analysis_framework>
